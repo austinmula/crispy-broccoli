@@ -13,7 +13,7 @@ const Dashboard = () => {
       <SideBar showSidebar={showSidebar} />
 
       {/* main-content */}
-      <div className='px-6 py-4 flex-1 overflow-auto'>
+      <div className='px-6 flex-1 overflow-auto bg-gray-200'>
         <Outlet />
       </div>
     </div>

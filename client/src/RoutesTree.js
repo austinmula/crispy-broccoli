@@ -7,6 +7,10 @@ import Landingpage from './pages/Landingpage';
 import FormLayout from './Layouts/FormLayout';
 import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
+import Profile from './pages/Profile';
+import Tables from './pages/Tables';
+import Users from './pages/Users';
+import Report from './pages/Report';
 
 const RoutesTree = () => {
   return (
@@ -19,6 +23,10 @@ const RoutesTree = () => {
         </Route>
         <Route path='dashboard' element={<Dashboard />}>
           <Route index element={<DasboardHome />} />
+          <Route path='profile' element={<Profile />} />
+          <Route path='tables' element={<Tables />} />
+          <Route path='users' element={<Users />} />
+          <Route path='reports' element={<Report />} />
         </Route>
       </Routes>
     </>

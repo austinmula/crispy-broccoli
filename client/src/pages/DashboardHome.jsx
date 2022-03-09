@@ -1,19 +1,21 @@
 import React from 'react';
 import Card from '../components/dashboard-components/Card';
+import Heading from '../components/dashboard-components/Heading';
 
 const DasboardHome = () => {
   const data = ['Water Level', 'Temperature', 'Humidity', 'pH'];
   return (
     <div>
-      <div className='mt-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2'>
+      <Heading text={'Dashboard'} />
+      <div className='mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2'>
         {/* First Grid Item */}
-        <div className='py-8 pl-4 mb-6 rounded-md md:h-64 bg-gray-300 shadow-lg flex items-center col-span-2'>
+        <div className='py-8 pl-4 mb-6 rounded-md md:h-76 bg-gradient-to-bl from-green-500 to-cyan-600 text-gray-100 shadow-lg flex items-center col-span-2'>
           <div className='grid grid-cols-1 sm:grid-cols-2'>
             <div className='space-y-3 pb-3'>
-              <h1 className='text-4xl font-light text-gray-900 '>
+              <h1 className='text-4xl font-light '>
                 Hydroponics Data Dashboard
               </h1>
-              <p className='font-bold text-md text-gray-900'>
+              <p className='font-bold text-md '>
                 Quick Data analysis for all your needs
               </p>
               <p className='text-sm leading-6'>
@@ -49,7 +51,7 @@ const DasboardHome = () => {
               </p>
             </div>
           </div>
-          <div className='mt-2 bg-emerald-700 h-36 flex items-center justify-center'>
+          <div className='mt-4 bg-emerald-700 h-36 flex items-center shadow justify-center'>
             <p className='text-4xl font-light text-gray-50'>Farmer View</p>
           </div>
         </div>
@@ -57,7 +59,7 @@ const DasboardHome = () => {
 
       {/* Sensor Data*/}
 
-      <div className=' mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2'>
+      <div className=' my-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2'>
         {data.map((i) => (
           <Card i={i} />
         ))}
@@ -65,13 +67,7 @@ const DasboardHome = () => {
 
       {/* Graph Section */}
 
-      <div className='mt-8'>
-        <div className='pb-5 border-b-2'>
-          <h1 className='text-4xl font-bold text-gray-700'>
-            Graphs and Charts
-          </h1>
-        </div>
-      </div>
+      <Heading text={'Graphs and Charts'} />
 
       {/* Grid for Graphs */}
       <div className='mt-4 grid grid-cols-1  lg:grid-cols-2 gap-3'>

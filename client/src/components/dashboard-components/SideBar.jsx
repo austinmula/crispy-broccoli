@@ -6,10 +6,10 @@ const SideBar = ({ showSidebar }) => {
     <div
       className={`${
         !showSidebar ? '-translate-x-full' : null
-      } w-64 bg-gray-900 text-white space-y-6 fixed inset-y-0 left-0 transform duration-200 ease-in-out md:relative md:translate-x-0`}
+      } w-64 bg-gray-900 text-white min-h-screen space-y-6 fixed inset-y-0 left-0 transform duration-200 ease-in-out md:relative md:translate-x-0`}
     >
       {/* logo */}
-      <div className='h-16 bg-gray-800 flex items-center px-6'>
+      <div className='h-20 border-b-2 flex items-center px-6'>
         <h1 className='text-xl font-bold'>hydrax-Dashboard</h1>
       </div>
       {/* Nav */}
