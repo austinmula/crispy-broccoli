@@ -1,8 +1,9 @@
-import React from 'react';
+import { useSelector } from 'react-redux';
 import Card from '../components/dashboard-components/Card';
 import Heading from '../components/dashboard-components/Heading';
 
 const DasboardHome = () => {
+  const { user } = useSelector((state) => state.auth);
   const data = ['Water Level', 'Temperature', 'Humidity', 'pH'];
   return (
     <div>
@@ -35,8 +36,8 @@ const DasboardHome = () => {
         </div>
         {/* End of First Grid Item */}
 
-        <div className='rounded-md '>
-          <div className='flex items-center bg-gray-300 p-5 rounded-sm shadow-md'>
+        <div className='rounded-md shadow-md '>
+          <div className='flex items-center bg-gradient-to-b from-gray-500 to-gray-700 p-5 text-gray-100'>
             <div className='w-16 h-16 rounded-full bg-gray-50 '>
               <img
                 className='h-full w-full object-cover object-center'
@@ -45,10 +46,8 @@ const DasboardHome = () => {
               />
             </div>
             <div className='ml-6'>
-              <p className='text-gray-900 font-bold text-md'>username</p>
-              <p className='text-gray-600 font-md text-semibold '>
-                email address
-              </p>
+              <p className='font-bold text-md'>{user.user_name}</p>
+              <p className='font-md text-semibold '>{user.email}</p>
             </div>
           </div>
           <div className='mt-4 bg-emerald-700 h-36 flex items-center shadow justify-center'>
@@ -61,7 +60,7 @@ const DasboardHome = () => {
 
       <div className=' my-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2'>
         {data.map((i) => (
-          <Card i={i} />
+          <Card key={i} i={i} />
         ))}
       </div>
 

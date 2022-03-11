@@ -1,15 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { register, reset } from '../features/auth/authSlice';
+import Error from '../custom-components/Error';
+import Loader from '../custom-components/Loader';
 
 const RegisterForm = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [data, setData] = useState({});
-  //const auth = useAuth();
+  const [passErr, setpassErr] = useState(false);
+  const [errormessage, setErrormessage] = useState('');
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+
+  useEffect(() => {
+    if (isError) {
+      setErrormessage(message.error);
+    }
+
+    if (isSuccess || user) {
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 3000);
+    }
+
+    const timeout = setTimeout(() => {
+      dispatch(reset());
+    }, 3000);
+
+    return () => clearTimeout(timeout);
+  }, [dispatch, isError, isSuccess, message, navigate, user]);
 
   const handleSubmit = (e) => {
+    setErrormessage('');
+    setpassErr(false);
     e.preventDefault();
 
     if (data.password !== data.password2) {
-      // toast.error('Passwords Do Not match');
+      setpassErr(true);
+      setErrormessage('Passwords Do not Match');
+      console.log(data);
     } else {
       //console.log(data);
       const name = data.name;
@@ -17,8 +49,7 @@ const RegisterForm = () => {
       const password = data.password;
 
       const Formdata = { name, email, password };
-
-      console.log(Formdata);
+      dispatch(register(Formdata));
     }
   };
 
@@ -38,12 +69,18 @@ const RegisterForm = () => {
     };
     setData(updatedData);
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
     <>
       <div>
         <h1 className='text-4xl px-6 py-4 text-bold text-gray-900 text-center'>
           Sign-Up
         </h1>
+        {isError || passErr ? <Error errormessage={errormessage} /> : null}
         <form className='space-y-3 py-3' onSubmit={handleSubmit}>
           <div>
             <label htmlFor='email-address' className='block mb-2 text-sm'>

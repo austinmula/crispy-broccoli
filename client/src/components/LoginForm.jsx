@@ -1,14 +1,40 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import Error from '../custom-components/Error';
+import Loader from '../custom-components/Loader';
+import { login, reset } from '../features/auth/authSlice';
 
 const LoginForm = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { isError, isSuccess, user, message, isLoading } = useSelector(
+    (state) => state.auth
+  );
+  const [errormessage, setErrormessage] = useState('');
   const [data, setData] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // dispatch(login(data));
+    dispatch(login(data));
   };
+
+  useEffect(() => {
+    if (isError) {
+      setErrormessage(message.error);
+    }
+
+    if (isSuccess || user) {
+      navigate('/dashboard');
+    }
+
+    const timeout = setTimeout(() => {
+      dispatch(reset());
+    }, 3000);
+
+    return () => clearTimeout(timeout);
+  }, [dispatch, isError, isSuccess, message, navigate, user]);
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -26,12 +52,17 @@ const LoginForm = () => {
     };
     setData(updatedData);
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <>
       <div>
         <h1 className='text-4xl px-6 py-4 text-bold text-gray-900 text-center'>
           Sign-In
         </h1>
+        {isError && <Error errormessage={errormessage} />}
         <form className='space-y-3 py-3' onSubmit={handleSubmit}>
           <div>
             <label htmlFor='email-address' className='block mb-2 text-sm'>

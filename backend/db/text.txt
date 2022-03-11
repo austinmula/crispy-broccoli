@@ -1,0 +1,14 @@
+create index.js
+inside the file
+const Pool = require('pg').Pool;
+
+const pool = new Pool({
+  user: 'postgres',
+  password: '#########',
+
+  host: 'localhost',
+  port: #####,
+  database: '#######',
+});
+
+module.exports = pool;

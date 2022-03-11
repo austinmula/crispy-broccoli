@@ -1,7 +1,7 @@
 import React from 'react';
 import Navigation from './Navigation';
 
-const SideBar = ({ showSidebar }) => {
+const SideBar = ({ showSidebar, handleLogOut }) => {
   return (
     <div
       className={`${
@@ -16,7 +16,10 @@ const SideBar = ({ showSidebar }) => {
       <Navigation />
 
       <div className='fixed bottom-0 left-0 w-full'>
-        <button className='w-full flex items-center px-6 py-2 mt-4 hover:text-gray-300 bg-gray-700 hover:bg-opacity-25 text-gray-100'>
+        <button
+          onClick={handleLogOut}
+          className='w-full flex items-center px-6 py-2 mt-4 hover:text-gray-300 bg-gray-700 hover:bg-opacity-25 text-gray-100'
+        >
           <svg
             xmlns='http://www.w3.org/2000/svg'
             className='h-6 w-6'
