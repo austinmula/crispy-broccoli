@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import Admin from '../components/dashboard-components/Admin';
 import Card from '../components/dashboard-components/Card';
 import Heading from '../components/dashboard-components/Heading';
 
@@ -36,12 +37,12 @@ const DasboardHome = () => {
         </div>
         {/* End of First Grid Item */}
 
-        <div className='rounded-md shadow-md '>
-          <div className='flex items-center bg-gradient-to-b from-gray-500 to-gray-700 p-5 text-gray-100'>
-            <div className='w-16 h-16 rounded-full bg-gray-50 '>
+        <div className='rounded-md'>
+          <div className='flex items-center rounded-3xl shadow-md bg-gradient-to-b from-gray-500 to-gray-700 p-5 text-gray-100'>
+            <div className='w-16 h-16 rounded-full bg-gray-50 overflow-hidden'>
               <img
                 className='h-full w-full object-cover object-center'
-                src='./logo192.png'
+                src='./user.png'
                 alt='user profile pic'
               />
             </div>
@@ -50,13 +51,14 @@ const DasboardHome = () => {
               <p className='font-md text-semibold '>{user.email}</p>
             </div>
           </div>
-          <div className='mt-4 bg-emerald-700 h-36 flex items-center shadow justify-center'>
-            <p className='text-4xl font-light text-gray-50'>Farmer View</p>
+          <div className='mt-3 bg-emerald-600 h-40 flex items-center justify-center rounded-md shadow-md '>
+            <p className='text-4xl font-light text-gray-50'>
+              {user?.user_type === 1 ? 'Farmer View' : 'Admin View'}
+            </p>
           </div>
         </div>
       </div>
-
-      {/* Sensor Data*/}
+      {user.user_type === 2 && <Admin />}
 
       <div className=' my-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2'>
         {data.map((i) => (

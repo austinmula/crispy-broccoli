@@ -1,10 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Heading from '../components/dashboard-components/Heading';
+import { useSelector, useDispatch } from 'react-redux';
+import { getprofile, reset } from '../features/profile/profileSlice';
+import moment from 'moment';
+import Error from '../custom-components/Error';
+import Modal from '../custom-components/Modal';
 
 const Profile = () => {
+  const dispatch = useDispatch();
+  const [Errmsg, setErrmsg] = useState('');
+  const { profile, message, isError } = useSelector((state) => state.profile);
+
+  useEffect(() => {
+    if (isError) {
+      setErrmsg(message.error);
+    }
+
+    dispatch(getprofile());
+
+    return () => {
+      // dispatch(reset());
+    };
+  }, [dispatch, isError, message.error]);
+
   return (
     <div>
       <Heading text='User profile' />
+      {isError && <Error errormessage={Errmsg} />}
       <div>
         <div className='container mx-auto my-2'>
           <div className='md:flex no-wrap md:-mx-2 '>
@@ -16,22 +38,36 @@ const Profile = () => {
                   <div className='h-48 w-48 rounded-full bg-gray-300 overflow-hidden mt-5'>
                     <img
                       className='h-full w-full object-cover object-center'
-                      // src={defaultImg}
+                      src='/user.png'
                       alt='user profile pic'
                     />
                   </div>
                 </div>
                 <h1 className='text-gray-900 font-bold text-xl leading-8 mt-6 text-center'>
-                  {/* {user ? user.user_name : 'username'} */}
-                  username
+                  {profile.user_name ? profile.user_name : 'N/A'}
                 </h1>
                 <h3 className='text-gray-600 font-lg text-semibold leading-6 text-center'>
-                  email@email.com
-                  {/* {user ? user.email : 'email'} */}
+                  {profile.email ? profile.email : 'N/A'}
                 </h3>
               </div>
               {/* <!-- End of profile card --> */}
-              <div className='my-4'></div>
+              <div className='my-4 bg-white  px-3 shadow-sm text-gray-700'>
+                <small className='font-semibold'>Member Since:</small>
+                <p className='text-md font-bold border-b-2 py-3'>
+                  {profile.created_at
+                    ? moment(profile.created_at).format('MMMM Do YYYY')
+                    : 'N/A'}
+                </p>
+
+                <small className='font-semibold'>User Type:</small>
+                <p className='text-md font-bold border-b-0 py-2'>
+                  {profile.user_type
+                    ? profile.user_type === 1
+                      ? 'Farmer'
+                      : 'Admin'
+                    : 'N/A'}
+                </p>
+              </div>
               {/* More Left Side Content*/}
             </div>
 
@@ -73,7 +109,7 @@ const Profile = () => {
                     <div className='grid grid-cols-2 mb-2'>
                       <div className='px-4 py-2 font-semibold'>Phone_num</div>
                       <div className='px-4 py-2'>
-                        {/* {contact.phone_num ? contact.phone_num : 'N/A'} */}
+                        {profile.phone_num ? profile.phone_num : 'N/A'}
                       </div>
                     </div>
                     <div className='grid grid-cols-2 mb-2'>
@@ -81,13 +117,15 @@ const Profile = () => {
                         Postal Address
                       </div>
                       <div className='px-4 py-2'>
-                        {/* {contact.postal_address ? contact.postal_address : 'N/A'} */}
+                        {profile.postal_address
+                          ? profile.postal_address
+                          : 'N/A'}
                       </div>
                     </div>
                     <div className='grid grid-cols-2 mb-2'>
                       <div className='px-4 py-2 font-semibold'>County</div>
                       <div className='px-4 py-2'>
-                        {/* {contact.county ? contact.county : 'N/A'} */}
+                        {profile.county ? profile.county : 'N/A'}
                       </div>
                     </div>
                     <div className='grid grid-cols-2 mb-2'>
@@ -95,41 +133,27 @@ const Profile = () => {
                         Constituency
                       </div>
                       <div className='px-4 py-2'>
-                        {/* {contact.constituency ? contact.constituency : 'N/A'} */}
+                        {profile.constituency ? profile.constituency : 'N/A'}
                       </div>
                     </div>
                     <div className='grid grid-cols-2 mb-2'>
                       <div className='px-4 py-2 font-semibold'>Email</div>
                       <div className='px-4 py-2'>
-                        <a
-                          className='text-blue-800'
-                          href='/'
-                          // href={user ? user.email : null}
-                        >
-                          {/* {user ? user.email : 'email'} */}
+                        <a className='text-blue-800' href='/dashboard'>
+                          {profile.email ? profile.email : 'N/A'}
                         </a>
                       </div>
                     </div>
-                    {/* <div className='grid grid-cols-2'>
-                    <div className='px-4 py-2 font-semibold'>Birthday</div>
-                    <div className='px-4 py-2'>Feb 06, 1998</div>
-                  </div> */}
                   </div>
                 </div>
-                <button
-                  // onClick={() => setShowmodal(true)}
-                  className='block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4'
-                >
-                  Add Contact Information
-                </button>
+
+                <Modal profile={profile} />
               </div>
-              {/* <!-- End of about section --> */}
 
               <div className='my-4'></div>
 
               {/* <!-- More Right side Content --> */}
 
-              {/* <!-- This example requires Tailwind CSS v2.0+ --> */}
               {/* {showmodal && <Modal setShowmodal={setShowmodal} />} */}
               {/* End Of modal */}
             </div>

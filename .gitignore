@@ -1,3 +1,4 @@
 node_modules
 .env
 backend/db/index.js
+backend/db/scripts.sql

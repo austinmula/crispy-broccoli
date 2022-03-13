@@ -30,6 +30,7 @@ exports.createUser = async (req, res) => {
       user_id: newUser.rows[0].user_id,
       email: newUser.rows[0].email,
       user_name: newUser.rows[0].user_name,
+      user_type: newUser.rows[0].user_type,
       token: token,
     });
   } catch (error) {
@@ -62,6 +63,7 @@ exports.login = async (req, res) => {
       user_id: user.rows[0].user_id,
       email: user.rows[0].email,
       user_name: user.rows[0].user_name,
+      user_type: user.rows[0].user_type,
       token: token,
     });
   } catch (error) {

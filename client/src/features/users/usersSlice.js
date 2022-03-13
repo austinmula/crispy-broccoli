@@ -1,21 +1,21 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import chatroomService from './chatroomService';
+import usersService from './usersService';
 
 const initialState = {
-  chatrooms: [],
+  users: [],
   isLoading: false,
   isSuccess: false,
   isError: false,
   message: '',
 };
 
-// Fetch chatrooms
-export const fetchrooms = createAsyncThunk(
-  'users/chatrooms',
+// Fetch users
+export const fetchallusers = createAsyncThunk(
+  'users/userdata',
   async (_, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await chatroomService.fetchrooms(token);
+      return await usersService.fetchallusers(token);
     } catch (error) {
       const message =
         (error.response &&
@@ -24,27 +24,27 @@ export const fetchrooms = createAsyncThunk(
         error.message ||
         error.toString();
 
-      return thunkAPI.rejectWithValue(message);
+      return thunkAPI.rejectWithValue(error.response.data);
     }
   }
 );
 
-export const chatroomSlice = createSlice({
-  name: 'chatroom', // this is the name of our slice
+export const usersSlice = createSlice({
+  name: 'users', // this is the name of our slice
   initialState,
   reducers: {
     reset: (state) => initialState,
   },
   extraReducers: {
-    [fetchrooms.pending]: (state) => {
+    [fetchallusers.pending]: (state) => {
       state.isLoading = true;
     },
-    [fetchrooms.fulfilled]: (state, action) => {
+    [fetchallusers.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
-      state.chatrooms = action.payload;
+      state.users = action.payload;
     },
-    [fetchrooms.rejected]: (state, action) => {
+    [fetchallusers.rejected]: (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.message = action.payload;
@@ -52,5 +52,5 @@ export const chatroomSlice = createSlice({
   },
 });
 
-export const { reset } = chatroomSlice.actions;
-export default chatroomSlice.reducer;
+export const { reset } = usersSlice.actions;
+export default usersSlice.reducer;

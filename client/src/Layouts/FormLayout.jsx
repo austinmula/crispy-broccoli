@@ -10,7 +10,7 @@ const FormLayout = () => {
           <div className='overflow-hidden bg-gray-900 shadow-2xl col-span-2 hidden md:block'>
             <div className='flex flex-col justify-center items-center h-full'>
               <div className='h-2/5 w-3/5 '>
-                <img src='./logo512.png' alt='user-icon' />
+                <img src='/user.png' alt='user-icon' />
               </div>
             </div>
           </div>

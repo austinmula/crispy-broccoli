@@ -21,9 +21,7 @@ const RegisterForm = () => {
     }
 
     if (isSuccess || user) {
-      setTimeout(() => {
-        navigate('/dashboard');
-      }, 3000);
+      navigate('/dashboard');
     }
 
     const timeout = setTimeout(() => {

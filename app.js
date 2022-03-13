@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// app.use('/api/users', require('./server/routes/userRoutes'));
+app.use('/api/users', require('./backend/routes/userRoutes'));
 app.use('/auth', require('./backend/routes/authRoutes'));
 
 // app.use('/api/chatroom', require('./server/routes/chatroomRoutes'));

@@ -7,12 +7,13 @@ exports.authorize = (req, res, next) => {
     const jwtToken = req.header('token');
 
     // if there is no token
-    if (!jwtToken) return sendError(res, 'Not Authorized', 403);
+    if (!jwtToken) return sendError(res, 'Not Authorized - NO TOKEN', 403);
 
     const payload = jwt.verify(jwtToken, process.env.JWT_SECRET);
 
     req.user = payload.user_id;
-    //console.log(payload);
+
+    // console.log(payload);
 
     next();
   } catch (error) {
