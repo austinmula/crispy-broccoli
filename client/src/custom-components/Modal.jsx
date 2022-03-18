@@ -1,6 +1,7 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
+import AddProfileData from '../components/dashboard-components/AddProfileData';
 
 export default function Modal({ profile }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,127 +42,7 @@ export default function Modal({ profile }) {
                       Edit Account Details
                     </Dialog.Title>
                     <div className='h-80 mt-6 overflow-y-auto'>
-                      <div>
-                        <form
-                          //   onSubmit={handleSubmit}
-                          className=''
-                        >
-                          <div>
-                            <label
-                              htmlFor='email'
-                              className='block mb-2 text-sm font-medium text-gray-900 '
-                            >
-                              Email
-                            </label>
-                            <input
-                              type='text'
-                              name='email'
-                              id='email'
-                              value={profile.email}
-                              //   onChange={handleChange}
-                              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
-                            />
-                          </div>
-
-                          <div>
-                            <label
-                              htmlFor='user_name'
-                              className='block mb-2 text-sm font-medium text-gray-900 '
-                            >
-                              Username
-                            </label>
-                            <input
-                              type='text'
-                              name='user_name'
-                              id='user_name'
-                              value={profile.user_name}
-                              //   onChange={handleChange}
-                              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
-                            />
-                          </div>
-
-                          <div>
-                            <label
-                              htmlFor='county'
-                              className='block mb-2 text-sm font-medium text-gray-900 '
-                            >
-                              County
-                            </label>
-                            <input
-                              type='text'
-                              name='county'
-                              id='county'
-                              value={profile.county}
-                              //   onChange={handleChange}
-                              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
-                              placeholder='enter county name'
-                            />
-                          </div>
-
-                          <div>
-                            <label
-                              htmlFor='constituency'
-                              className='block mb-2 text-sm font-medium text-gray-900'
-                            >
-                              Constituency
-                            </label>
-                            <input
-                              type='text'
-                              name='constituency'
-                              id='constituency'
-                              value={profile.constituency}
-                              //   onChange={handleChange}
-                              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
-                              placeholder='enter constituency name'
-                            />
-                          </div>
-
-                          <div>
-                            <label
-                              htmlFor='postal_address'
-                              className='block mb-2 text-sm font-medium text-gray-900'
-                            >
-                              Postal_Address
-                            </label>
-                            <input
-                              type='text'
-                              name='postal_address'
-                              id='postal_address'
-                              value={profile.postal_address}
-                              //   onChange={handleChange}
-                              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
-                              placeholder='enter PO BOX and Code'
-                            />
-                          </div>
-
-                          <div>
-                            <label
-                              htmlFor='phone_num'
-                              className='block mb-2 text-sm font-medium text-gray-900'
-                            >
-                              Phone_Nmber
-                            </label>
-                            <input
-                              type='text'
-                              name='phone_num'
-                              id='phone_num'
-                              value={profile.phone_num}
-                              //   onChange={handleChange}
-                              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
-                              placeholder='enter phone number'
-                            />
-                          </div>
-                          <div className='py-3'>
-                            <button
-                              type='submit'
-                              className='w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm'
-                            >
-                              Edit
-                            </button>
-                          </div>
-                        </form>
-                      </div>
-
+                      <AddProfileData />
                       {/* Ed FORM */}
                     </div>
                   </div>

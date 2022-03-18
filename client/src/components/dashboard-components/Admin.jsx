@@ -4,8 +4,9 @@ import { fetchallusers, reset } from '../../features/users/usersSlice';
 import CardUsers from './CardUsers';
 import { useSelector, useDispatch } from 'react-redux';
 import Error from '../../custom-components/Error';
-import BarChart from '../../charts/BarChart';
+import UserRegChart from '../../charts/UserRegChart';
 import Heading from './Heading';
+import LocationChart from '../../charts/LocationChart';
 
 const labels = ['Name', 'Email', 'RegistedAt'];
 
@@ -13,24 +14,6 @@ const Admin = () => {
   const dispatch = useDispatch();
   const { users, message, isError } = useSelector((state) => state.users);
   const [Errmsg, setErrmsg] = useState('');
-  // const [summary, setSummary] = useState([]);
-  // const [loading, setLoading] = useState(true);
-
-  // async function getSummary() {
-  //   setLoading(true);
-  //   const response = await axios.get('http://localhost:4001/api/users/summary');
-
-  //   setSummary(response.data);
-
-  //   console.log(summary);
-  //   setLoading(false);
-  // }
-
-  // useEffect(() => {
-  //   // getSummary();
-  // }, [loading]);
-
-  // setLoading(false);
 
   useEffect(() => {
     if (isError) {
@@ -89,10 +72,13 @@ const Admin = () => {
           </table>
         </div>
       </div>
-      <Heading text={'User Registration Rate'} />
-      <div className='my-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2'>
-        <div className='col-span-3 bg-white p-3'>
-          <BarChart />
+      <Heading text={'User Data Analysis'} />
+      <div className='my-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2'>
+        <div className='col-span-3 bg-white p-2 shadow-md'>
+          <UserRegChart />
+        </div>
+        <div className='col-span-2 bg-white p-2 shadow-md'>
+          <LocationChart />
         </div>
       </div>
 

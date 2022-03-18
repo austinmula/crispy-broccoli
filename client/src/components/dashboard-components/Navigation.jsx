@@ -73,7 +73,7 @@ const Navigation = () => {
         </CustomLink>
       )}
 
-      {user?.user_type === 2 && (
+      {user?.user_type === 1 && (
         <CustomLink to='/dashboard/reports'>
           <svg
             className='w-6 h-6'

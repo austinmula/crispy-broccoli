@@ -24,7 +24,7 @@ ChartJS.register(
   Legend
 );
 
-const BarChart = () => {
+const UserRegChart = () => {
   const [summary, setSummary] = useState([]);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const BarChart = () => {
   }, []);
 
   const data = {
-    labels: summary?.map((item) => moment(item.Week).format('MMMM Do YYYY')),
+    labels: summary?.map((item) => moment(item.Week).format('MMM Do YYYY')),
     datasets: [
       {
         label: 'Registration Rate',
@@ -78,4 +78,4 @@ const BarChart = () => {
   );
 };
 
-export default BarChart;
+export default UserRegChart;
