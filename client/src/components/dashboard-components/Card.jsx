@@ -9,10 +9,10 @@ const Card = ({ i }) => {
 
       <div className='rounded-md flex justify-between mt-6 py-3'>
         <div>
-          <h1 className='text text-ellipsis text-2xl'>{i}</h1>
+          <h1 className='text text-ellipsis text-2xl'>{i.name}</h1>
         </div>
         <div>
-          <p className='text-6xl'>34</p>
+          <p className='text-6xl'>{i.value}</p>
         </div>
       </div>
     </div>

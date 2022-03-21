@@ -17,8 +17,35 @@ const fetchallusers = async (token) => {
   return response.data;
 };
 
+const edituserdetails = async (token, user_data) => {
+  const config = {
+    headers: {
+      token: token,
+    },
+  };
+
+  const response = await axios.put(
+    API_URL + user_data.user_id,
+    user_data,
+    config
+  );
+  // console.log(response);
+};
+
+const deleteuser = async (token, id) => {
+  const config = {
+    headers: {
+      token: token,
+    },
+  };
+
+  const response = await axios.delete(API_URL + id, config);
+  console.log(response);
+};
+
 const usersService = {
   fetchallusers,
+  edituserdetails,
 };
 
 export default usersService;

@@ -1,11 +1,21 @@
+import axios from 'axios';
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getprofile } from '../../features/profile/profileSlice';
 
 const AddProfileData = () => {
   const [data, setData] = useState({});
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const newdata = { ...data, user_id: user.user_id };
 
-    console.log(data);
+    const response = await axios.post(`http://localhost:4001/api/users/`, {
+      newdata,
+    });
+
+    dispatch(getprofile());
   };
   const handleChange = (e) => {
     const name = e.target.name;
@@ -39,6 +49,8 @@ const AddProfileData = () => {
               id='county'
               name='county'
               onChange={handleChange}
+              defaultValue='Nairobi'
+              required
             >
               <option>Nairobi</option>
               <option>Kiambu</option>
@@ -70,7 +82,7 @@ const AddProfileData = () => {
             type='text'
             name='constituency'
             id='constituency'
-            //   value={profile.constituency}
+            required
             onChange={handleChange}
             className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
             placeholder='enter constituency name'
@@ -88,7 +100,7 @@ const AddProfileData = () => {
             type='text'
             name='postal_address'
             id='postal_address'
-            //   value={profile.postal_address}
+            required
             onChange={handleChange}
             className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
             placeholder='enter PO BOX and Code'
@@ -117,7 +129,7 @@ const AddProfileData = () => {
         <div className='py-3'>
           <button
             type='submit'
-            className='w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm'
+            className='w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500  sm:text-sm'
           >
             Add Data
           </button>

@@ -8,7 +8,11 @@ import Heading from '../components/dashboard-components/Heading';
 
 const DasboardHome = () => {
   const { user } = useSelector((state) => state.auth);
-  const data = ['Water Level', 'Temperature', 'Humidity'];
+  const data = [
+    { name: 'Water Level', value: 44 },
+    { name: 'Temperature', value: 26 },
+    { name: 'Humidity', value: 48 },
+  ];
   return (
     <div>
       <Heading text={'Dashboard'} />
@@ -25,9 +29,9 @@ const DasboardHome = () => {
                   Quick Data analysis for all your needs
                 </p>
                 <p className='text-sm leading-6'>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
-                  soluta, sunt modi, magni nobis sapiente pariatur perferendis
-                  saepe totam repellat vitae
+                  You can access the data from your hydroponics farm on here.
+                  The data is from the water-level, humidity and temperature
+                  sensors.
                 </p>
               </div>
               <div className='h-full w-full'>

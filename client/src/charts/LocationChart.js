@@ -1,16 +1,15 @@
-import React from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const LocationChart = () => {
+const LocationChart = ({ summary }) => {
   const data = {
-    labels: ['Nairobi', 'Kisumu', 'Kiambu', 'Mombasa', 'Kakamega', 'Other'],
+    labels: summary?.map((item) => item.county),
     datasets: [
       {
         label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
+        data: summary?.map((item) => item.count),
         backgroundColor: [
           'rgba(255, 99, 132, 0.9)',
           'rgba(54, 162, 235, 0.9)',

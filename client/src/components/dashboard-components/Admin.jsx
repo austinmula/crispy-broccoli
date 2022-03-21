@@ -5,8 +5,10 @@ import CardUsers from './CardUsers';
 import { useSelector, useDispatch } from 'react-redux';
 import Error from '../../custom-components/Error';
 import UserRegChart from '../../charts/UserRegChart';
-import Heading from './Heading';
+import axios from 'axios';
 import LocationChart from '../../charts/LocationChart';
+import Heading from './Heading';
+import DetailedTable from './DetailedTable';
 
 const labels = ['Name', 'Email', 'RegistedAt'];
 
@@ -14,6 +16,8 @@ const Admin = () => {
   const dispatch = useDispatch();
   const { users, message, isError } = useSelector((state) => state.users);
   const [Errmsg, setErrmsg] = useState('');
+  const [locationsummary, setLocationSummary] = useState([]);
+  const [userDatasummary, setUserdataSummary] = useState([]);
 
   useEffect(() => {
     if (isError) {
@@ -26,11 +30,48 @@ const Admin = () => {
     };
   }, [dispatch, isError, message.error]);
 
+  useEffect(() => {
+    const fetchSummary = async () => {
+      const response = await axios.get(
+        'http://localhost:4001/api/users/summary'
+      );
+      console.log(response.data);
+      setUserdataSummary(response.data);
+    };
+    fetchSummary();
+  }, []);
+
+  useEffect(() => {
+    const fetchSummary = async () => {
+      const response = await axios.get(
+        'http://localhost:4001/api/users/distribution'
+      );
+      console.log(response.data);
+      setLocationSummary(response.data);
+    };
+    fetchSummary();
+  }, []);
+
   return (
     <>
       <div className='my-4'>{isError && <Error errormessage={Errmsg} />}</div>
-      {/* {Admin View Componet start} */}
-      <div className=' my-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2'>
+
+      <p className='text-md font-serif'>
+        Analysis of the user Data. Distribution of users based on location and
+        the number of new users per week
+      </p>
+
+      <div className='my-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3'>
+        <div className='col-span-3 bg-white p-2 shadow-md'>
+          <UserRegChart summary={userDatasummary} />
+        </div>
+        <div className='col-span-2 bg-white p-2 shadow-md'>
+          <LocationChart summary={locationsummary} />
+        </div>
+      </div>
+
+      {/* Second part */}
+      <div className=' my-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3'>
         <div className='col-span-2'>
           <CardUsers number={users?.length} />
         </div>
@@ -54,7 +95,7 @@ const Admin = () => {
             </thead>
             {users.length > 0 ? (
               <tbody className='bg-white divide-y divide-gray-200'>
-                {users.slice(0, 2).map((user) => (
+                {users.slice(0, 3).map((user) => (
                   <tr key={user.user_id}>
                     <td className='px-6 py-4 whitespace-nowrap'>
                       {user.user_name}
@@ -72,13 +113,91 @@ const Admin = () => {
           </table>
         </div>
       </div>
-      <Heading text={'User Data Analysis'} />
-      <div className='my-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2'>
-        <div className='col-span-3 bg-white p-2 shadow-md'>
-          <UserRegChart />
+
+      {/* Tables */}
+      <Heading text={'Tabular Analysis of User Data'} />
+      <DetailedTable />
+      <div className='my-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-3'>
+        <div className='bg-green-100 col-span-3 row-span-2'>
+          {userDatasummary.length > 0 ? (
+            <table className='min-w-full'>
+              <thead className='bg-green-900'>
+                <tr>
+                  <th
+                    scope='col'
+                    className='px-6 py-2 text-left text-xs font-medium text-gray-100 uppercase tracking-wider'
+                  >
+                    Week
+                  </th>
+                  <th
+                    scope='col'
+                    className='px-6 py-2 text-left text-xs font-medium text-gray-100 uppercase tracking-wider'
+                  >
+                    Date
+                  </th>
+                  <th
+                    scope='col'
+                    className='px-6 py-2 text-left text-xs font-medium text-gray-100 uppercase tracking-wider'
+                  >
+                    Count
+                  </th>
+                </tr>
+              </thead>
+              <tbody className='divide-y divide-gray-300'>
+                {userDatasummary.map((item, index) => (
+                  <tr key={item.Week}>
+                    <td className='px-6 py-2 whitespace-nowrap'>
+                      Week {index + 1}
+                    </td>
+                    <td className='px-6 py-2 whitespace-nowrap'>
+                      {moment(item.Week).format('MMM Do YYYY')}
+                    </td>
+                    <td className='px-6 py-2 whitespace-nowrap'>
+                      {item.count}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <>No data</>
+          )}
         </div>
-        <div className='col-span-2 bg-white p-2 shadow-md'>
-          <LocationChart />
+        <div className='bg-white col-span-3 '>
+          {locationsummary.length > 0 ? (
+            <table className='min-w-full'>
+              <thead className='bg-green-900'>
+                <tr>
+                  <th
+                    scope='col'
+                    className='px-6 py-2 text-left text-xs font-medium text-gray-100 uppercase tracking-wider'
+                  >
+                    County
+                  </th>
+                  <th
+                    scope='col'
+                    className='px-6 py-2 text-left text-xs font-medium text-gray-100 uppercase tracking-wider'
+                  >
+                    Count
+                  </th>
+                </tr>
+              </thead>
+              <tbody className='divide-y divide-gray-300'>
+                {locationsummary.map((item) => (
+                  <tr key={item.county}>
+                    <td className='px-6 py-2 whitespace-nowrap'>
+                      {item.county}
+                    </td>
+                    <td className='px-6 py-2 whitespace-nowrap'>
+                      {item.count} Users
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <>No data</>
+          )}
         </div>
       </div>
 

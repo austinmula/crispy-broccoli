@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import {
   Chart as ChartJS,
   LineElement,
@@ -11,7 +10,6 @@ import {
 } from 'chart.js';
 
 import { Line } from 'react-chartjs-2';
-import axios from 'axios';
 import moment from 'moment';
 
 ChartJS.register(
@@ -24,20 +22,7 @@ ChartJS.register(
   Legend
 );
 
-const UserRegChart = () => {
-  const [summary, setSummary] = useState([]);
-
-  useEffect(() => {
-    const fetchSummary = async () => {
-      const response = await axios.get(
-        'http://localhost:4001/api/users/summary'
-      );
-      console.log(response.data);
-      setSummary(response.data);
-    };
-    fetchSummary();
-  }, []);
-
+const UserRegChart = ({ summary }) => {
   const data = {
     labels: summary?.map((item) => moment(item.Week).format('MMM Do YYYY')),
     datasets: [
