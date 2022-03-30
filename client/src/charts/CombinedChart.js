@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -11,6 +11,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import faker from '@faker-js/faker';
+import moment from 'moment';
 
 ChartJS.register(
   CategoryScale,
@@ -22,7 +23,7 @@ ChartJS.register(
   Legend
 );
 
-const CombinedChart = () => {
+const CombinedChart = ({ myData }) => {
   const options = {
     responsive: true,
     plugins: {
@@ -31,47 +32,37 @@ const CombinedChart = () => {
       },
       title: {
         display: true,
-        text: 'Chart.js Line Chart',
+        text: 'Sensors Chart',
+      },
+    },
+    scales: {
+      yAxis: {
+        min: 10,
+        suggestedMax: 100,
       },
     },
   };
 
-  const labels = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-  ];
-
   const data = {
-    labels,
+    labels: myData?.map((item) => moment(item.date).format('LT')),
     datasets: [
       {
         label: 'Temperature',
-        data: labels.map(() =>
-          faker.datatype.number({ min: -1000, max: 1000 })
-        ),
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        data: myData?.map((item) => item.temperature),
+        borderColor: 'rgb(27, 163, 156)',
+        backgroundColor: 'rgba(27, 163, 156, 0.9)',
       },
       {
         label: 'Humidity',
-        data: labels.map(() =>
-          faker.datatype.number({ min: -1000, max: 1000 })
-        ),
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        data: myData?.map((item) => item.humidity),
+        borderColor: 'rgb(0, 230, 64)',
+        backgroundColor: 'rgba(0, 230, 64, 0.9)',
       },
       {
         label: 'Water Level',
-        data: labels.map(() =>
-          faker.datatype.number({ min: -1000, max: 1000 })
-        ),
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        data: myData?.map((item) => item.WL),
+        borderColor: 'rgb(30, 130, 76)',
+        backgroundColor: 'rgba(30, 130, 76, 0.9)',
       },
     ],
   };
