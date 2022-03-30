@@ -12,9 +12,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/api/users', require('./backend/routes/userRoutes'));
 app.use('/auth', require('./backend/routes/authRoutes'));
-
-// app.use('/api/chatroom', require('./server/routes/chatroomRoutes'));
-// app.use('/api/messages', require('./server/routes/messageRoutes'));
+app.use('/api/data', require('./backend/routes/dataRoutes'));
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

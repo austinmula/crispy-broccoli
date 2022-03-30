@@ -69,7 +69,10 @@ exports.fetchAllusers = async (req, res) => {
 exports.fetchAllusersDetailed = async (req, res) => {
   try {
     // Select users
-    const users = await pool.query('SELECT * FROM profile');
+    const users = await pool.query(
+      `SELECT * from profile where created_at >  CURRENT_DATE - INTERVAL '1 week'`
+    );
+
     res.json(users.rows);
   } catch (error) {
     res.status(500).json(error.message);
