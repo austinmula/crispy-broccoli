@@ -5,6 +5,8 @@ import { getprofile, reset } from '../features/profile/profileSlice';
 import moment from 'moment';
 import Error from '../custom-components/Error';
 import Modal from '../custom-components/Modal';
+import Calender from '../components/dashboard-components/profile/Calender';
+import PickDate from '../components/dashboard-components/profile/PickDate';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -147,10 +149,12 @@ const Profile = () => {
                   </div>
                 </div>
 
-                <Modal profile={profile} />
+                {!profile.phone_num && <Modal profile={profile} />}
               </div>
 
-              <div className='my-4'></div>
+              <div className='my-4 p-2 w-full bg-white h-52'>
+                <PickDate />
+              </div>
 
               {/* <!-- More Right side Content --> */}
 
@@ -158,6 +162,9 @@ const Profile = () => {
               {/* End Of modal */}
             </div>
           </div>
+        </div>
+        <div className='bg-gray-50 p-3 shadow-md rounded'>
+          <Calender />
         </div>
       </div>
     </div>

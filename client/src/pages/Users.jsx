@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Heading from '../components/dashboard-components/Heading';
+// import Heading from '../components/dashboard-components/Heading';
 import { fetchallusers, reset } from '../features/users/usersSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import Error from '../custom-components/Error';
 import moment from 'moment';
-import AdminEditModal from '../components/dashboard-components/AdminEditModal';
-import Search from '../components/dashboard-components/Search';
+import AdminEditModal from '../components/dashboard-components/admin/AdminEditModal';
+import Search from '../components/dashboard-components/users/Search';
 
 const Users = () => {
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ const Users = () => {
 
   return (
     <div>
-      <Heading text='System Users' />
+      {/* <Heading text='System Users' /> */}
       <div className='my-4'>{isError && <Error errormessage={Errmsg} />}</div>
       <Search searchkey={searchkey} setSearchKey={setSearchKey} />
       <div className='flex flex-col'>

@@ -1,18 +1,31 @@
 import { useSelector } from 'react-redux';
 import CombinedChart from '../charts/CombinedChart';
-import HumidityChart from '../charts/HumidityChart';
-import TempChart from '../charts/TempChart';
-import Admin from '../components/dashboard-components/Admin';
-import Card from '../components/dashboard-components/Card';
+import Admin from '../components/dashboard-components/admin/Admin';
 import Heading from '../components/dashboard-components/Heading';
+import io from 'socket.io-client';
+import { useEffect, useState, useRef } from 'react';
+import moment from 'moment';
+import Card from '../components/dashboard-components/Card';
 
 const DasboardHome = () => {
+  const [realtime, setRealtime] = useState({});
+  const [fullSet, setFullSet] = useState([]);
+  const socket = useRef();
+  useEffect(() => {
+    socket.current = io('ws://localhost:3002');
+  }, []);
+
+  useEffect(() => {
+    socket?.current.on('arduino-data', (data) => {
+      // console.log(data);
+      setRealtime(data);
+      setFullSet((currentdata) => [...currentdata, data]);
+      // console.log(fullSet.length);
+    });
+  }, []);
+
   const { user } = useSelector((state) => state.auth);
-  const data = [
-    { name: 'Water Level', value: 44 },
-    { name: 'Temperature', value: 26 },
-    { name: 'Humidity', value: 48 },
-  ];
+
   return (
     <div>
       <Heading text={'Dashboard'} />
@@ -72,26 +85,20 @@ const DasboardHome = () => {
 
       {user.user_type === 1 && (
         <div className=' my-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2'>
-          {data.map((i) => (
-            <Card key={i} i={i} />
-          ))}
+          <Card name='Temperature' value={realtime.temperature} />
+          <Card name='Humidity' value={realtime.humidity} />
+          <Card name='Water Level' value={realtime.WL} />
         </div>
       )}
 
       {/* Graph Section */}
 
-      {user.user_type === 1 && <Heading text={'Graphs and Charts'} />}
+      {user.user_type === 1 && <Heading text={'Sensor Data Chart'} />}
 
       {user.user_type === 1 && (
-        <div className='mt-4 grid grid-cols-1  lg:grid-cols-2 gap-3'>
-          <div className='bg-white'>
-            <HumidityChart />
-          </div>
-          <div className='bg-white'>
-            <TempChart />
-          </div>
-          <div className='bg-white col-span-2'>
-            <CombinedChart />
+        <div className='mt-4 grid grid-cols-1  lg:grid-cols-5 mb-5'>
+          <div className='bg-white col-span-4'>
+            <CombinedChart myData={fullSet} />
           </div>
         </div>
       )}

@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import AddProfileData from '../components/dashboard-components/profile/AddProfileData';
 
-export default function Modal() {
+import EditForm from '../users/EditForm';
+
+const AdminEditModal = ({ user }) => {
   const [isOpen, setIsOpen] = useState(false);
-
   return (
     <>
       <button
-        className='block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4'
+        className='block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 '
         onClick={() => setIsOpen(true)}
       >
         Edit Details
@@ -38,10 +38,11 @@ export default function Modal() {
                       as='h3'
                       className='text-lg text-center leading-6 font-medium text-gray-900'
                     >
-                      Edit Account Details
+                      Edit {user.user_name} Account
                     </Dialog.Title>
                     <div className='h-80 mt-6 overflow-y-auto'>
-                      <AddProfileData />
+                      {/* <AddProfileData /> */}
+                      <EditForm user={user} />
                     </div>
                   </div>
                 </div>
@@ -61,4 +62,6 @@ export default function Modal() {
       </Transition.Root>
     </>
   );
-}
+};
+
+export default AdminEditModal;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import SideBar from '../components/dashboard-components/SideBar';
-import Mobile from '../components/dashboard-components/Mobile';
+import SideBar from '../components/dashboard-components/sidebar/SideBar';
+import Mobile from '../components/dashboard-components/sidebar/Mobile';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
