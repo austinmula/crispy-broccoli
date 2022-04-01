@@ -1,9 +1,19 @@
+const { readFileSync, writeFileSync } = require('fs');
 const { Server } = require('socket.io');
 const { SerialPort } = require('serialport');
 const { ReadlineParser } = require('@serialport/parser-readline');
+// const bodyParser = require('body-parser');
+// const jsonParser = bodyParser.json();
+const fileName = 'data.json';
+const express = require('express');
+const { createServer } = require('http');
 
-const io = new Server(3002, {
-  /* options */
+let rawData = readFileSync(fileName);
+let sensorData = JSON.parse(rawData);
+
+const app = express();
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
   cors: {
     origin: 'http://localhost:3000',
   },
@@ -33,24 +43,24 @@ port.on('open', function () {
 });
 
 parser.on('data', function (data) {
-  str = data.toString();
+  let str = data.toString();
   str = JSON.stringify(data);
   str = JSON.parse(data);
   str = { ...str, date: Date.now() };
   console.log(str);
 
+  try {
+    sensorData.push(str);
+    writeFileSync(fileName, JSON.stringify(sensorData, null, 2));
+  } catch (error) {
+    console.log(error.message);
+  }
+
   io.emit('arduino-data', str);
 });
-
-// port.on('data', function () {
-//   //   str = data.toString();
-//   //   str = JSON.stringify(data);
-//   //   str = JSON.parse(data);
-
-//   //   console.log(str);
-//   io.emit('arduino-data', () => {});
-// });
 
 port.on('error', function (error) {
   console.log(error.message);
 });
+
+httpServer.listen(3002);

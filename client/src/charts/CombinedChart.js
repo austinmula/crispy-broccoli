@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,8 +10,6 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import faker from '@faker-js/faker';
-import moment from 'moment';
 
 ChartJS.register(
   CategoryScale,
@@ -44,7 +42,7 @@ const CombinedChart = ({ myData }) => {
   };
 
   const data = {
-    labels: myData?.map((item) => moment(item.date).format('LT')),
+    labels: myData?.map((item) => item.date),
     datasets: [
       {
         label: 'Temperature',

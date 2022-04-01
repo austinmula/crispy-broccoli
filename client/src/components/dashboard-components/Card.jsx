@@ -1,11 +1,39 @@
 import React from 'react';
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
-const Card = ({ value, name }) => {
+const Card = ({ value, text, symbol }) => {
   return (
-    <div className='rounded-sm shadow-sm bg-gradient-to-l from-green-400 to-cyan-600 flex items-center justify-center p-5'>
-      <div className='rounded-full w-52 h-52 border-4 border-green-200 flex flex-col items-center justify-center'>
-        <h1 className='text-2xl text-cyan-100 font-semibold'>{name}</h1>
-        <h1 className='text-5xl mt-1 text-cyan-50'>{value || 0}</h1>
+    <div className='lg:w-72 w-full bg-gray-100 shadow-md p-2'>
+      <div className='flex justify-between'>
+        <h1 className='font font-semibold text-md text-gray-600'>
+          Sensor Data
+        </h1>
+
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          className='h-6 w-6'
+          fill='none'
+          viewBox='0 0 24 24'
+          stroke='#333'
+          strokeWidth={2}
+        >
+          <path
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            d='M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
+          />
+        </svg>
+      </div>
+      <div className='p-4 flex flex-col justify-center items-center gap-4'>
+        <div className='w-48 h-48'>
+          <CircularProgressbar
+            value={value}
+            text={`${value || 0} ${symbol}`}
+            strokeWidth={4}
+          />
+        </div>
+        <p className='text-sm font-bold font-sans text-gray-700'>{text}</p>
       </div>
     </div>
   );

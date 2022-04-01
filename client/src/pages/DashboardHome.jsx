@@ -1,11 +1,10 @@
 import { useSelector } from 'react-redux';
-import CombinedChart from '../charts/CombinedChart';
 import Admin from '../components/dashboard-components/admin/Admin';
 import Heading from '../components/dashboard-components/Heading';
 import io from 'socket.io-client';
 import { useEffect, useState, useRef } from 'react';
+import Realtime from '../components/dashboard-components/Realtime';
 import moment from 'moment';
-import Card from '../components/dashboard-components/Card';
 
 const DasboardHome = () => {
   const [realtime, setRealtime] = useState({});
@@ -19,6 +18,8 @@ const DasboardHome = () => {
     socket?.current.on('arduino-data', (data) => {
       // console.log(data);
       setRealtime(data);
+      data = { ...data, date: moment(data.date).format('LT') };
+
       setFullSet((currentdata) => [...currentdata, data]);
       // console.log(fullSet.length);
     });
@@ -83,25 +84,11 @@ const DasboardHome = () => {
 
       {user.user_type === 2 && <Admin />}
 
-      {user.user_type === 1 && (
-        <div className=' my-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2'>
-          <Card name='Temperature' value={realtime.temperature} />
-          <Card name='Humidity' value={realtime.humidity} />
-          <Card name='Water Level' value={realtime.WL} />
-        </div>
-      )}
-
       {/* Graph Section */}
 
-      {user.user_type === 1 && <Heading text={'Sensor Data Chart'} />}
+      {user.user_type === 1 && <Heading text={'Sensor Data & Chart'} />}
 
-      {user.user_type === 1 && (
-        <div className='mt-4 grid grid-cols-1  lg:grid-cols-5 mb-5'>
-          <div className='bg-white col-span-4'>
-            <CombinedChart myData={fullSet} />
-          </div>
-        </div>
-      )}
+      {user.user_type === 1 && <Realtime realtime={realtime} data={fullSet} />}
     </div>
   );
 };

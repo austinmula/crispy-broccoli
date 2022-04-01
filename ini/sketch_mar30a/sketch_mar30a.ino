@@ -1,13 +1,10 @@
 #include <ArduinoJson.h>
-
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
 }
-
 void loop() {
   DynamicJsonDocument doc(300);
-  //  StaticJsonDocument <300> doc;   //Declaring static JSON buffer
 
   doc["temperature"] = getTemperatureValue();
   doc["humidity"] =  getHumidityValue();
@@ -28,5 +25,5 @@ int getHumidityValue() {
 }
 
 int getWLevel() {
-  return random(35, 60);
+  return random(20, 90);
 }

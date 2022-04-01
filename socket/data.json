@@ -1,0 +1,20 @@
+[
+  {
+    "temperature": 23,
+    "humidity": 45,
+    "WL": 53,
+    "date": 1648758185273
+  },
+  {
+    "temperature": 24,
+    "humidity": 46,
+    "WL": 52,
+    "date": 1648758245317
+  },
+  {
+    "temperature": 25,
+    "humidity": 58,
+    "WL": 47,
+    "date": 1648758305365
+  }
+]
