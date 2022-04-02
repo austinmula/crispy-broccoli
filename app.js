@@ -13,6 +13,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/api/users', require('./backend/routes/userRoutes'));
 app.use('/auth', require('./backend/routes/authRoutes'));
 app.use('/api/data', require('./backend/routes/dataRoutes'));
+app.use('/api/events', require('./backend/routes/eventRoutes'));
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

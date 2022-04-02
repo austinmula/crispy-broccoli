@@ -15,6 +15,8 @@ const AddProfileData = () => {
       newdata,
     });
 
+    console.log(response);
+
     dispatch(getprofile());
   };
   const handleChange = (e) => {

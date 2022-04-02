@@ -7,7 +7,7 @@ import Error from '../../../custom-components/Error';
 import UserRegChart from '../../../charts/UserRegChart';
 import axios from 'axios';
 import LocationChart from '../../../charts/LocationChart';
-import Heading from '../Heading';
+// import Heading from '../Heading';
 
 const labels = ['Name', 'Email', 'RegistedAt'];
 

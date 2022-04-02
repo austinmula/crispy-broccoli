@@ -30,7 +30,7 @@ const DasboardHome = () => {
   return (
     <div>
       <Heading text={'Dashboard'} />
-      {user.user_type === 1 && (
+      {user.user_type === 3 && (
         <div className='mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2'>
           {/* First Grid Item */}
           <div className='py-8 pl-4 mb-6 rounded-md md:h-76 bg-gradient-to-bl from-green-500 to-cyan-600 text-gray-100 shadow-lg flex items-center col-span-2'>
@@ -86,7 +86,7 @@ const DasboardHome = () => {
 
       {/* Graph Section */}
 
-      {user.user_type === 1 && <Heading text={'Sensor Data & Chart'} />}
+      {user.user_type === 3 && <Heading text={'Sensor Data & Chart'} />}
 
       {user.user_type === 1 && <Realtime realtime={realtime} data={fullSet} />}
     </div>

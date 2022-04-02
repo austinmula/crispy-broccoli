@@ -1,80 +1,81 @@
 import React, { useEffect, useState } from 'react';
-import Heading from '../components/dashboard-components/Heading';
 import { useSelector, useDispatch } from 'react-redux';
-import { getprofile, reset } from '../features/profile/profileSlice';
+import { getprofile } from '../features/profile/profileSlice';
 import moment from 'moment';
 import Error from '../custom-components/Error';
 import Modal from '../custom-components/Modal';
 import Calender from '../components/dashboard-components/profile/Calender';
 import PickDate from '../components/dashboard-components/profile/PickDate';
+import axios from 'axios';
 
 const Profile = () => {
   const dispatch = useDispatch();
   const [Errmsg, setErrmsg] = useState('');
   const { profile, message, isError } = useSelector((state) => state.profile);
+  const { user } = useSelector((state) => state.auth);
+  const [title, setTitle] = useState('');
+  const [date, setDate] = useState(new Date());
+  const [tasks, setTasks] = useState([]);
+
+  const handleSubmit = async () => {
+    if (title && date) {
+      const data = {
+        title,
+        date: date,
+        user_id: user.user_id,
+      };
+      const response = await axios.post(
+        'http://localhost:4001/api/events',
+        {
+          data,
+        },
+        {
+          headers: { token: user.token },
+        }
+      );
+      if (response.status === 200) {
+        console.log(response.data);
+        setTasks((currentdata) => [
+          ...currentdata,
+          {
+            title: response.data.title,
+            date: moment(response.data.date).toISOString().slice(0, 10),
+          },
+        ]);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const getTasks = async function () {
+      const response = await axios.get('http://localhost:4001/api/events', {
+        headers: { token: user.token },
+      });
+      if (response.data) {
+        response.data.forEach((item) => {
+          item.date = moment(item.date).toISOString().slice(0, 10);
+        });
+        setTasks(response.data);
+      }
+    };
+    getTasks();
+  }, [user.token]);
 
   useEffect(() => {
     if (isError) {
       setErrmsg(message.error);
     }
-
     dispatch(getprofile());
-
-    return () => {
-      // dispatch(reset());
-    };
   }, [dispatch, isError, message.error]);
 
   return (
     <div>
-      <Heading text='User profile' />
       {isError && <Error errormessage={Errmsg} />}
       <div>
-        <div className='container mx-auto my-2'>
+        <div className=' mx-auto mt-4'>
           <div className='md:flex no-wrap md:-mx-2 '>
             {/* <!-- Left Side --> */}
-            <div className='w-full md:w-3/12 md:mx-2'>
-              {/* <!-- Profile Card --> */}
-              <div className='bg-white pb-5'>
-                <div className='w-full h-52 flex justify-center items-center '>
-                  <div className='h-48 w-48 rounded-full bg-gray-300 overflow-hidden mt-5'>
-                    <img
-                      className='h-full w-full object-cover object-center'
-                      src='/user.png'
-                      alt='user profile pic'
-                    />
-                  </div>
-                </div>
-                <h1 className='text-gray-900 font-bold text-xl leading-8 mt-6 text-center'>
-                  {profile.user_name ? profile.user_name : 'N/A'}
-                </h1>
-                <h3 className='text-gray-600 font-lg text-semibold leading-6 text-center'>
-                  {profile.email ? profile.email : 'N/A'}
-                </h3>
-              </div>
-              {/* <!-- End of profile card --> */}
-              <div className='my-4 bg-white  px-3 shadow-sm text-gray-700'>
-                <small className='font-semibold'>Member Since:</small>
-                <p className='text-md font-bold border-b-2 py-3'>
-                  {profile.created_at
-                    ? moment(profile.created_at).format('MMMM Do YYYY')
-                    : 'N/A'}
-                </p>
-
-                <small className='font-semibold'>User Type:</small>
-                <p className='text-md font-bold border-b-0 py-2'>
-                  {profile.user_type
-                    ? profile.user_type === 1
-                      ? 'Farmer'
-                      : 'Admin'
-                    : 'N/A'}
-                </p>
-              </div>
-              {/* More Left Side Content*/}
-            </div>
-
-            {/* <!-- Right Side --> */}
-            <div className='w-full md:w-9/12 mx-2 h-64'>
+            <div className='w-full md:w-9/12 mx-2 h-auto'>
               {/* <!-- Profile tab --> */}
               {/* <!-- Contact Section --> */}
 
@@ -151,20 +152,59 @@ const Profile = () => {
 
                 {!profile.phone_num && <Modal profile={profile} />}
               </div>
-
-              <div className='my-4 p-2 w-full bg-white h-52'>
-                <PickDate />
-              </div>
-
-              {/* <!-- More Right side Content --> */}
-
-              {/* {showmodal && <Modal setShowmodal={setShowmodal} />} */}
-              {/* End Of modal */}
+              <PickDate
+                setTitle={setTitle}
+                date={date}
+                setDate={setDate}
+                handleSubmit={handleSubmit}
+              />
             </div>
+
+            {/* <!-- Left Side --> */}
+            <div className='w-full md:w-3/12 md:mx-2'>
+              {/* <!-- Profile Card --> */}
+              <div className='bg-white pb-5'>
+                <div className='w-full h-52 flex justify-center items-center'>
+                  <div className='h-48 w-48 rounded-full bg-gray-300 overflow-hidden mt-5'>
+                    <img
+                      className='h-full w-full object-cover object-center'
+                      src='/user.png'
+                      alt='user profile pic'
+                    />
+                  </div>
+                </div>
+                <h1 className='text-gray-900 font-bold text-xl leading-8 mt-6 text-center'>
+                  {profile.user_name ? profile.user_name : 'N/A'}
+                </h1>
+                <h3 className='text-gray-600 font-lg text-semibold leading-6 text-center'>
+                  {profile.email ? profile.email : 'N/A'}
+                </h3>
+              </div>
+              {/* <!-- End of profile card --> */}
+              <div className='my-4 bg-white  px-3 shadow-sm text-gray-700'>
+                <small className='font-semibold'>Member Since:</small>
+                <p className='text-md font-bold border-b-2 py-3'>
+                  {profile.created_at
+                    ? moment(profile.created_at).format('MMMM Do YYYY')
+                    : 'N/A'}
+                </p>
+
+                <small className='font-semibold'>User Type:</small>
+                <p className='text-md font-bold border-b-0 py-2'>
+                  {profile.user_type
+                    ? profile.user_type === 1
+                      ? 'Farmer'
+                      : 'Admin'
+                    : 'N/A'}
+                </p>
+              </div>
+              {/* More Left Side Content*/}
+            </div>
+            {/* End Right */}
           </div>
         </div>
-        <div className='bg-gray-50 p-3 shadow-md rounded'>
-          <Calender />
+        <div className='bg-gray-50 p-3 my-5 shadow-md rounded'>
+          <Calender tasks={tasks} />
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 const pool = require('../db');
 const { sendError } = require('../utils/helpers');
 
-exports.postData = async (req, res) => {
+exports.getData = async (req, res) => {
   try {
     console.log(req.body);
     res.send('Hello');
