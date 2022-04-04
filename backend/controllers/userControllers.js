@@ -141,12 +141,14 @@ exports.deleteUser = async (req, res) => {
 
     const deleteuser = await pool.query(
       'DELETE FROM users WHERE user_id = $1 RETURNING *',
-      [id]
+      [req.params.id]
     );
+
+    console.log(deleteuser);
 
     if (deleteuser.rows.length === 0) sendError(res, 'Delete Failed', 404);
 
-    res.status(200).json('Deleted Successfuly');
+    res.status(200).json(deleteuser.rows[0]);
   } catch (error) {
     res.status(500).json(error.message);
   }
