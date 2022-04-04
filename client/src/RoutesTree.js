@@ -11,6 +11,7 @@ import Profile from './pages/Profile';
 import Tables from './pages/Tables';
 import Users from './pages/Users';
 import Report from './pages/Report';
+import Realtime from './pages/Realtime';
 
 const RoutesTree = () => {
   return (
@@ -27,6 +28,7 @@ const RoutesTree = () => {
           <Route path='tables' element={<Tables />} />
           <Route path='users' element={<Users />} />
           <Route path='reports' element={<Report />} />
+          <Route path='realtime' element={<Realtime />} />
         </Route>
       </Routes>
     </>

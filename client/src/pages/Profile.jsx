@@ -34,7 +34,6 @@ const Profile = () => {
         }
       );
       if (response.status === 200) {
-        console.log(response.data);
         setTasks((currentdata) => [
           ...currentdata,
           {
@@ -42,6 +41,8 @@ const Profile = () => {
             date: moment(response.data.date).toISOString().slice(0, 10),
           },
         ]);
+
+        setTitle('');
       }
     }
   };
@@ -154,6 +155,7 @@ const Profile = () => {
               </div>
               <PickDate
                 setTitle={setTitle}
+                title={title}
                 date={date}
                 setDate={setDate}
                 handleSubmit={handleSubmit}

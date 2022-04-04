@@ -14,48 +14,29 @@ const DetailedTable = () => {
     };
     getTableData();
   }, []);
+  const labels = [
+    'Email',
+    'Name',
+    'County',
+    'Constituency',
+    'Postal Adress',
+    'Phone Number',
+  ];
   return (
-    <div className='bg-green-100 '>
+    <div className='bg-gray-100 '>
       {data.length > 0 ? (
         <table className='min-w-full' id='detailed-table'>
-          <thead className='bg-green-900'>
+          <thead className='bg-gray-500'>
             <tr>
-              <th
-                scope='col'
-                className='px-6 py-2 text-left text-xs font-medium text-gray-100 uppercase tracking-wider'
-              >
-                Email
-              </th>
-              <th
-                scope='col'
-                className='px-6 py-2 text-left text-xs font-medium text-gray-100 uppercase tracking-wider'
-              >
-                Name
-              </th>
-              <th
-                scope='col'
-                className='px-6 py-2 text-left text-xs font-medium text-gray-100 uppercase tracking-wider'
-              >
-                County
-              </th>
-              <th
-                scope='col'
-                className='px-6 py-2 text-left text-xs font-medium text-gray-100 uppercase tracking-wider'
-              >
-                Constituency
-              </th>
-              <th
-                scope='col'
-                className='px-6 py-2 text-left text-xs font-medium text-gray-100 uppercase tracking-wider'
-              >
-                Postal Address
-              </th>
-              <th
-                scope='col'
-                className='px-6 py-2 text-left text-xs font-medium text-gray-100 uppercase tracking-wider'
-              >
-                Phone Number
-              </th>
+              {labels.map((i) => (
+                <th
+                  key={i}
+                  scope='col'
+                  className='px-6 py-2 text-left text-xs font-medium text-gray-100 uppercase tracking-wider'
+                >
+                  {i}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody className='divide-y divide-gray-300'>

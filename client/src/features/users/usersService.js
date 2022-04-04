@@ -13,7 +13,7 @@ const fetchallusers = async (token) => {
   response.data.sort((a, b) => {
     return new Date(b.created_at) - new Date(a.created_at);
   });
-  console.log(response.data);
+  // console.log(response.data);
   return response.data;
 };
 
@@ -29,10 +29,11 @@ const edituserdetails = async (token, user_data) => {
     user_data,
     config
   );
-  // console.log(response);
+  console.log(response);
 };
 
 const deleteuser = async (token, id) => {
+  // console.log(token);
   const config = {
     headers: {
       token: token,
@@ -40,12 +41,13 @@ const deleteuser = async (token, id) => {
   };
 
   const response = await axios.delete(API_URL + id, config);
-  console.log(response);
+  return response.data;
 };
 
 const usersService = {
   fetchallusers,
   edituserdetails,
+  deleteuser,
 };
 
 export default usersService;

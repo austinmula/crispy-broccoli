@@ -5,7 +5,7 @@ import 'react-circular-progressbar/dist/styles.css';
 const Card = ({ value, text, symbol }) => {
   return (
     <div className='lg:w-72 w-full bg-gray-100 shadow-md p-2'>
-      <div className='flex justify-between'>
+      <div className='flex justify-between '>
         <h1 className='font font-semibold text-md text-gray-600'>
           Sensor Data
         </h1>

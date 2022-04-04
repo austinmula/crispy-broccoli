@@ -1,63 +1,90 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
+  ComposedChart,
+  Line,
+  Area,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
   Tooltip,
   Legend,
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
-import faker from '@faker-js/faker';
+  Scatter,
+  ResponsiveContainer,
+} from 'recharts';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+const data = [
+  {
+    name: 'Page A',
+    uv: 590,
+    pv: 800,
+    amt: 1400,
+    cnt: 490,
+  },
+  {
+    name: 'Page B',
+    uv: 868,
+    pv: 967,
+    amt: 1506,
+    cnt: 590,
+  },
+  {
+    name: 'Page C',
+    uv: 1397,
+    pv: 1098,
+    amt: 989,
+    cnt: 350,
+  },
+  {
+    name: 'Page D',
+    uv: 1480,
+    pv: 1200,
+    amt: 1228,
+    cnt: 480,
+  },
+  {
+    name: 'Page E',
+    uv: 1520,
+    pv: 1108,
+    amt: 1100,
+    cnt: 460,
+  },
+  {
+    name: 'Page F',
+    uv: 1400,
+    pv: 680,
+    amt: 1700,
+    cnt: 380,
+  },
+];
 
-const TempChart = () => {
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      title: {
-        display: true,
-        text: 'Chart.js Line Chart',
-      },
-    },
-  };
+export default function TempChart({ data }) {
+  return (
+    <ResponsiveContainer width='100%' height='100%'>
+      <ComposedChart
+        width={500}
+        height={400}
+        data={data}
+        margin={{
+          top: 20,
+          right: 20,
+          bottom: 20,
+          left: 20,
+        }}
+      >
+        <CartesianGrid stroke='#f5f5f5' />
+        <XAxis dataKey='hour' scale='band' />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey='max_humid' barSize={20} fill='#a83248' />
+        <Bar dataKey='min_humid' barSize={20} fill='#5cb9f2' />
+        <Bar dataKey='avg_humid' barSize={20} fill='#47a65c' />
 
-  const labels = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-  ];
-
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: 'Temperature',
-        data: labels.map(() => faker.datatype.number({ min: 0, max: 60 })),
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      },
-    ],
-  };
-  return <Line options={options} data={data} />;
-};
-
-export default TempChart;
+        <Line type='monotone' dataKey='max_WL' stroke='#a83248' />
+        <Line type='monotone' dataKey='min_WL' stroke='#5cb9f2' />
+        <Line type='monotone' dataKey='avg_WL' stroke='#47a65c' />
+      </ComposedChart>
+    </ResponsiveContainer>
+  );
+}

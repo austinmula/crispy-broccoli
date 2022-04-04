@@ -3,10 +3,10 @@ import moment from 'moment';
 
 const RegSummary = ({ summary }) => {
   return (
-    <div className='bg-green-100 col-span-3 row-span-2'>
+    <div className='bg-gray-100 col-span-3 row-span-2'>
       {summary.length > 0 ? (
         <table className='min-w-full' id='reg-rate-table'>
-          <thead className='bg-green-900'>
+          <thead className='bg-gray-700'>
             <tr>
               <th
                 scope='col'

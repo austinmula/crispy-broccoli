@@ -7,6 +7,7 @@ import axios from 'axios';
 import LocationChart from '../charts/LocationChart';
 import RegSummary from '../components/dashboard-components/admin/RegSummary';
 import UserRegChart from '../charts/UserRegChart';
+import WeeklyData from '../components/WeeklyData';
 
 // import Heading from '../components/dashboard-components/Heading';
 
@@ -41,6 +42,21 @@ const generateReport = () => {
   doc.text('Registration Rate', 15, doc.autoTable.previous.finalY + 10);
   autoTable(doc, {
     html: '#reg-rate-table',
+    startY: doc.autoTable.previous.finalY + 15,
+  });
+  doc.text('Weekly Temperature', 15, doc.autoTable.previous.finalY + 10);
+  autoTable(doc, {
+    html: '#weekly-temp-table',
+    startY: doc.autoTable.previous.finalY + 15,
+  });
+  doc.text('Weekly Humidity', 15, doc.autoTable.previous.finalY + 10);
+  autoTable(doc, {
+    html: '#weekly-humid-table',
+    startY: doc.autoTable.previous.finalY + 15,
+  });
+  doc.text('Weekly Water Level', 15, doc.autoTable.previous.finalY + 10);
+  autoTable(doc, {
+    html: '#weekly-wl-table',
     startY: doc.autoTable.previous.finalY + 15,
   });
 
@@ -88,25 +104,7 @@ const Report = () => {
       <LocationSummary summary={locationsummary} />
       <h1 className='my-5 font-serif text-2xl'>New Users Per Week</h1>
       <RegSummary summary={userDatasummary} />
-
-      <div className='flex justify-between items-start'>
-        <div className=' w-2/5 '>
-          <h1 className='my-5 font-serif text-2xl text-center'>
-            User Distribution By County Chart
-          </h1>
-          <div className='bg-gray-50 shadow-sm'>
-            <LocationChart summary={locationsummary} />
-          </div>
-        </div>
-        <div className=' w-3/5 ml-1'>
-          <h1 className='my-5 font-serif text-2xl text-center'>
-            Registration Rate Per Week
-          </h1>
-          <div className='bg-gray-50 shadow-sm'>
-            <UserRegChart summary={userDatasummary} />
-          </div>
-        </div>
-      </div>
+      <WeeklyData />
     </div>
   );
 };

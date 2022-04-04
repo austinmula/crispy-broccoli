@@ -2,7 +2,7 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const PickDate = ({ setTitle, date, setDate, handleSubmit }) => {
+const PickDate = ({ setTitle, date, setDate, handleSubmit, title }) => {
   return (
     <div className='bg-white my-4 py-2 shadow-sm rounded-sm'>
       <div className='border-b-2 pb-3  flex items-center space-x-2 mt-3 mb-3 font-semibold text-gray-900 leading-8 px-4'>
@@ -34,6 +34,7 @@ const PickDate = ({ setTitle, date, setDate, handleSubmit }) => {
               type='text'
               className='appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm'
               placeholder='Enter Event Description'
+              value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
           </div>

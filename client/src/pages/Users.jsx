@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// import Heading from '../components/dashboard-components/Heading';
-import { fetchallusers, reset } from '../features/users/usersSlice';
+import { fetchallusers, reset, deleteuser } from '../features/users/usersSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import Error from '../custom-components/Error';
 import moment from 'moment';
@@ -23,6 +22,10 @@ const Users = () => {
       dispatch(reset());
     };
   }, [dispatch, isError, message.error]);
+
+  const handleDelete = (id) => {
+    dispatch(deleteuser(id));
+  };
 
   return (
     <div>
@@ -119,16 +122,10 @@ const Users = () => {
 
                           <td className='px-6 py-4 whitespace-nowrap text-right text-sm font-medium'>
                             <AdminEditModal user={user} />
-                            {/* <button
-                            className='text-indigo-600 hover:text-indigo-900'
-                            // onClick={() => setShowModal(true)}
-                          >
-                            {user.user_type !== 2 && 'Edit Details'}
-                          </button> */}
                           </td>
                           <td className='px-6 py-4 whitespace-nowrap text-right text-sm font-medium'>
                             <button
-                              // onClick={() => handleDelete(user.user_id)}
+                              onClick={() => handleDelete(user.user_id)}
                               className='text-red-600 hover:text-red-900'
                             >
                               {user.user_type !== 2 && 'Delete'}

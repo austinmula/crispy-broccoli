@@ -7,6 +7,7 @@ import Error from '../../../custom-components/Error';
 import UserRegChart from '../../../charts/UserRegChart';
 import axios from 'axios';
 import LocationChart from '../../../charts/LocationChart';
+import RegChart from '../../../charts/RegChart';
 // import Heading from '../Heading';
 
 const labels = ['Name', 'Email', 'RegistedAt'];
@@ -34,7 +35,12 @@ const Admin = () => {
       const response = await axios.get(
         'http://localhost:4001/api/users/summary'
       );
-      console.log(response.data);
+
+      if (response.data) {
+        response.data.forEach((item) => {
+          item.Week = moment(item.Week).format('MMM Do YY');
+        });
+      }
       setUserdataSummary(response.data);
     };
     fetchSummary();
@@ -55,14 +61,12 @@ const Admin = () => {
     <>
       <div className='my-4'>{isError && <Error errormessage={Errmsg} />}</div>
 
-      <p className='text-md font-serif'>
-        Analysis of the user Data. Distribution of users based on location and
-        the number of new users per week
-      </p>
-
-      <div className='my-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3'>
+      <div className='my-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3'>
         <div className='col-span-3 bg-white p-2 shadow-md'>
-          <UserRegChart summary={userDatasummary} />
+          <div className='pl-12 text-md font-semibold text-gray-700 py-4'>
+            Weekly Registration Rate
+          </div>
+          <RegChart data={userDatasummary} />
         </div>
         <div className='col-span-2 bg-white p-2 shadow-md'>
           <LocationChart summary={locationsummary} />
@@ -70,7 +74,7 @@ const Admin = () => {
       </div>
 
       {/* Second part */}
-      <div className=' my-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3'>
+      <div className=' my-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3'>
         <div className='col-span-2'>
           <CardUsers number={users?.length} />
         </div>

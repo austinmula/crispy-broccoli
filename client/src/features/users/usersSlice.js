@@ -23,7 +23,7 @@ export const fetchallusers = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-
+      console.log(message);
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }
@@ -43,7 +43,7 @@ export const edituserdetails = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-
+      console.log(message);
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }
@@ -64,6 +64,7 @@ export const deleteuser = createAsyncThunk(
         error.message ||
         error.toString();
 
+      console.log(message);
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }
@@ -108,6 +109,7 @@ export const usersSlice = createSlice({
       state.isLoading = true;
     },
     [deleteuser.fulfilled]: (state, action) => {
+      console.log(action.payload);
       state.isLoading = false;
       state.isSuccess = true;
       state.users = state.users.filter(

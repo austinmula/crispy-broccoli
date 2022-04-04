@@ -2,10 +2,10 @@ import React from 'react';
 
 const LocationSummary = ({ summary }) => {
   return (
-    <div className='bg-white col-span-3 '>
+    <div className='bg-gray-100 col-span-3 '>
       {summary.length > 0 ? (
         <table className='min-w-full' id='location-table'>
-          <thead className='bg-green-900'>
+          <thead className='bg-gray-600'>
             <tr>
               <th
                 scope='col'
@@ -21,7 +21,7 @@ const LocationSummary = ({ summary }) => {
               </th>
             </tr>
           </thead>
-          <tbody className='divide-y divide-green-300'>
+          <tbody className='divide-y divide-gray-300'>
             {summary.map((item) => (
               <tr key={item.county}>
                 <td className='px-6 py-2 whitespace-nowrap'>{item.county}</td>
