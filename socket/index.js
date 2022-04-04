@@ -1,12 +1,12 @@
+require('dotenv').config();
 const { readFileSync, writeFileSync } = require('fs');
 const { Server } = require('socket.io');
 const { SerialPort } = require('serialport');
 const { ReadlineParser } = require('@serialport/parser-readline');
-// const bodyParser = require('body-parser');
-// const jsonParser = bodyParser.json();
 const fileName = 'data.json';
 const express = require('express');
 const { createServer } = require('http');
+const db = require('./db');
 
 let rawData = readFileSync(fileName);
 let sensorData = JSON.parse(rawData);
@@ -24,7 +24,7 @@ io.on('connection', function (socket) {
 });
 
 const port = new SerialPort({
-  path: 'COM3',
+  path: 'COM4',
   baudRate: 9600,
   autoOpen: false,
 });
@@ -42,7 +42,7 @@ port.on('open', function () {
   console.log('serial port is open');
 });
 
-parser.on('data', function (data) {
+parser.on('data', async function (data) {
   let str = data.toString();
   str = JSON.stringify(data);
   str = JSON.parse(data);
@@ -50,6 +50,11 @@ parser.on('data', function (data) {
   console.log(str);
 
   try {
+    const res = await db.query(
+      'INSERT INTO sensor_data (temperature, humidity, WL, FS, motion) values ($1, $2, $3, $4, $5)',
+      [str.temperature, str.humidity, str.WL, str.FS, str.Motion]
+    );
+    console.log(res.rows);
     sensorData.push(str);
     writeFileSync(fileName, JSON.stringify(sensorData, null, 2));
   } catch (error) {
